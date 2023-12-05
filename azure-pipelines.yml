@@ -14,12 +14,6 @@ variables:
   buildPath: '$(Build.SourcesDirectory)/build'
 
 steps:
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
-
 - task: UseDotNet@2
   displayName: 'Use .NET 8.0'
   inputs:

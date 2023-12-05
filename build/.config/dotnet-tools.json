@@ -7,6 +7,18 @@
       "commands": [
         "dotnet-script"
       ]
+    },
+    "obfuscar.globaltool": {
+      "version": "2.2.38",
+      "commands": [
+        "obfuscar.console"
+      ]
+    },
+    "dotnet-project-licenses": {
+      "version": "2.7.1",
+      "commands": [
+        "dotnet-project-licenses"
+      ]
     }
   }
 }
