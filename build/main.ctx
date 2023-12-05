@@ -1,0 +1,21 @@
+#r "nuget: CommandLineParser, 2.9.1"
+
+using CommandLine;
+
+
+public sealed class Options
+{
+    [Option('t', "target", Required = false, Default = "build-msi")]
+    public string Target { get; set; }
+}
+
+Options options;
+
+Parser.Default.ParseArguments<Options>(Args).WithParsed<Options>(o =>
+{
+    WriteLine("Starting building EnifyEngine");
+    
+    options = o;
+    WriteLine("Target: " + options.Target);
+});
+
