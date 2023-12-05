@@ -21,14 +21,26 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-- task: VSBuild@1
+- task: UseDotNet@2
+  displayName: 'Use .NET 8.0'
   inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    packageType: sdk
+    useGlobalJson: true
 
-- task: VSTest@2
+- task: DotNetCoreCLI@2
+  displayName: 'Restore tools'
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: custom
+    custom: tool
+    arguments: 'restore'
+    workingDirectory: '$(BuildPath)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build binaries'
+  inputs:
+    command: custom
+    custom: tool
+    arguments: 'run dotnet-script main.ctx'
+    workingDirectory: '$(BuildPath)'
+
+
