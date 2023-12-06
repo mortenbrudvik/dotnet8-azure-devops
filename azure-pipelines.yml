@@ -20,6 +20,14 @@ steps:
     packageType: sdk
     useGlobalJson: true
 
+# Temporary until dotnet tool nuget-license support .NET 8.0  
+# See https://github.com/tomchavakis/nuget-license/issues/200
+- task: UseDotNet@2
+  displayName: 'Use .NET 7.0 (Required by nuget-license)'
+  inputs:
+    packageType: sdk
+    useGlobalJson: true
+
 - task: DotNetCoreCLI@2
   displayName: 'Restore tools'
   inputs:
