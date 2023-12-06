@@ -10,23 +10,52 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
+  # Build variables
   solution: '**/*.sln'
   buildPath: '$(Build.SourcesDirectory)/build'
 
+  # Cache variables
+  dotnet8Sdk: '8.0.x'
+  dotnet8SdkCacheKey: 'dotnet-sdk-$(dotnet8Sdk)'
+  dotnet7Sdk: '7.0.x'
+  dotnet7SdkCacheKey: 'dotnet-sdk-$(dotnet7Sdk)'
+
 steps:
+
+# Cache .NET Core SDK
+- task: Cache@2
+  inputs:
+    key: '$(dotnet8SdkCacheKey)'
+    path: '$(Agent.TempDirectory)/dncs'
+    cacheHitVar: CACHE_RESTORED
+  displayName: Cache .NET 8 Core SDK
+
+- task: Cache@2
+  inputs:
+    key: '$(dotnet7SdkCacheKey)'
+    path: '$(Agent.TempDirectory)/dncs'
+    cacheHitVar: CACHE_RESTORED
+  displayName: Cache .NET 7 Core SDK
+
+
+# Install dependencies  
 - task: UseDotNet@2
   displayName: 'Use .NET 8.0'
   inputs:
     packageType: sdk
-    useGlobalJson: true
-
-# Temporary until dotnet tool nuget-license support .NET 8.0  
+    version: '$(dotnet8Sdk)'
+    installationPath: '$(Agent.TempDirectory)/dncs'
+  condition: ne(variables.CACHE_RESTORED, 'true')
+  
+  # Temporary until dotnet tool nuget-license support .NET 8.0  
 # See https://github.com/tomchavakis/nuget-license/issues/200
 - task: UseDotNet@2
   displayName: 'Use .NET 7.0 (Required by nuget-license)'
   inputs:
     packageType: sdk
-    version: 7.0.x
+    version: '$(dotnet7Sdk)'
+    installationPath: '$(Agent.TempDirectory)/dncs'
+  condition: ne(variables.CACHE_RESTORED, 'true')
 
 - task: DotNetCoreCLI@2
   displayName: 'Restore tools'
