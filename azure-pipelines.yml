@@ -26,7 +26,7 @@ steps:
   displayName: 'Use .NET 7.0 (Required by nuget-license)'
   inputs:
     packageType: sdk
-    useGlobalJson: true
+    version: 7.0.x
 
 - task: DotNetCoreCLI@2
   displayName: 'Restore tools'
