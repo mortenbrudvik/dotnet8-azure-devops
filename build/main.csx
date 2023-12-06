@@ -67,6 +67,10 @@ Target("zip-build-files",
     DependsOn("obfuscate-code"), () =>
     ZipFile.CreateFromDirectory(publishDir, zipFilePath));
 
+Target("build-msi",
+    DependsOn("zip-build-files"), () => 
+    WriteLine("MSI build is not implemented yet"));
+
 Parser.Default.ParseArguments<Options>(Args).WithParsed<Options>(o =>
 {
     WriteLine("Starting building EnifyEngine");
