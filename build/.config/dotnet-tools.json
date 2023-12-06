@@ -19,6 +19,12 @@
       "commands": [
         "dotnet-project-licenses"
       ]
+    },
+    "azuresigntool": {
+      "version": "4.0.1",
+      "commands": [
+        "azuresigntool"
+      ]
     }
   }
 }

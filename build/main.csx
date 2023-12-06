@@ -1,3 +1,5 @@
+#load "build-utils.csx"
+
 #r "nuget: SimpleExec, 11.0.0"
 #r "nuget: CommandLineParser, 2.9.1"
 #r "nuget: Bullseye, 3.8.0"
@@ -10,10 +12,16 @@ using static Bullseye.Targets;
 using static System.Console;
 using System;
 
+string version => $"1.0.0"; 
+
 var artifactsDir = "artifacts";
 var publishDir = $"{artifactsDir}\\publish";
 var obfuscateDir = $"{artifactsDir}\\publish_obfuscar";
+
 string zipFilePath => Path.Join(artifactsDir,"binaries.zip");
+
+string msiFileName => $"MyConsole.{version}";
+string msiFilePath  => Path.Join(artifactsDir, msiFileName + ".msi");
 
 public void DeleteDirectory(string path)
 {
@@ -69,7 +77,7 @@ Target("zip-build-files",
 
 Target("build-msi",
     DependsOn("zip-build-files"), () => 
-    WriteLine("MSI build is not implemented yet"));
+    Run(MSBuildPath, $@"..\Installer\ /p:Configuration=Release /p:MsiFileName={msiFileName} /p:FileVersion={version} /noconsolelogger"));
 
 Parser.Default.ParseArguments<Options>(Args).WithParsed<Options>(o =>
 {

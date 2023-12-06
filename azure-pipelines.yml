@@ -10,7 +10,6 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
   buildPath: '$(Build.SourcesDirectory)/build'
 
 steps:
