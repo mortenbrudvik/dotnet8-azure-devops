@@ -40,5 +40,8 @@ steps:
   inputs:
     command: custom
     custom: tool
-    arguments: 'run dotnet-script main.csx -t build-msi'  
+    arguments: >
+      run dotnet-script 
+      main.csx 
+      -t build-msi  
     workingDirectory: '$(buildPath)'
