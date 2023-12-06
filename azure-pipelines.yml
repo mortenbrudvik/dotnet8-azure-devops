@@ -33,7 +33,5 @@ steps:
   inputs:
     command: custom
     custom: tool
-    arguments: 'run dotnet-script main.ctx'
+    arguments: 'run dotnet-script main.csx'
     workingDirectory: '$(buildPath)'
-
-
